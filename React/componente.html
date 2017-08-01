@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class MiComponente extends React.Component{
+        constructor(props){
+          super(props);
+          this.state={
+            count: 0,
+          };
+          this.handleClick = this.handleClick.bind(this);
+        }
+        handleClick(){
+          this.setState({
+            count: this.state.count + 1,
+          })
+        }
+
+        render(){
+          const name = this.props.name;
+          return (<h1 id="Title" onClick={this.handleClick}>
+            Hola {name} {this.state.count}
+          </h1>);
+        }
+      }
+
+       ReactDOM.render(
+        <MiComponente name="FX" />,
+        document.getElementById('root')
+        );
+      
+
+    </script>
+
+<!--
+Un PureComponent implementa un metodo para validar si los props y si el estado han cambiado y solo hace el render si cambia(Ventaja de rendimiento) aunque si internamente tiene elementos con un estado interno (como un componente que estiende component) no va a renderizar esa parte de la aplicación (Util para el ultimo componente del arbol o en el caso que hayan solamente compotes puros)
+
+-->
+
+<p>Tres modos de hacer componentes básicos:</p>
+<p>1.- Función pura (usando JS)</p>
+<p>2.- Clase heredando de React.Component</p>
+<p><code>MyComponent extends React.Component {}</code></p>
+<p>Así accedes a mayores propiedades y métodos para el componente. Cuando usas un metodo de esta clase debes hacer “bind” para asociar tu método como método del componente (algo que puede ser confuso).</p>
+<p>3.- Clase heredando de React.PureComponent</p>
+<p><code>MyComponent extends React.PureComponent{}</code></p>
+<p>Es como la anterior pero su diferencia es que se aplica cuando virtual dom detecta que hubo un cambio. La ventaja es el rendimiento. Su desventaja es que si es parte de un componente padre que virtual dom no detecta cambios, aunque los componentes hijos sí hayan tenido no se aplicarán ya que sigue el algoritmo de virtual dom.</p>
+<p>4.- Usando un método createClass que pronto estará obsoleto, quizá sea útil conocerlo por si te topas en un futuro con él.</p>
+
+ <div class="Comment-body"><div id="container" class="CommentContent-text"><p>React.createClass funciona de igual manera:<br>
+Tenemos un render () { … }<br>
+Tenemos un state, pero en este caso en vez de usar el constructor lo que hacemos es un getInitialState(){ … } el cual va a devolver un objeto, y ese objeto va a tener un count : 0<br>
+  getInitialState(){<br>
+    return {<br>
+      count: 0<br>
+    };<br>
+  }<br>
+Entonces en vez de usar el constructor para inicializar estados, vamos a utilizar el metodo de getinitialState.</p>
+<p>Cuando usamos clases no tenemos que hacer un bind de handleClick, porque createClass automaticamente hace bind de todos los metodos que definamos en nuestra clase.</p></div></div></div></article></section>
+
+
+
+  </body>
+</html>
