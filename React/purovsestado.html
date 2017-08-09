@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Hola(props){
+        const name = props.name;
+        return (
+          <h1 id="Title" onClick={ props.onClick }>
+              Hola {props.name} {props.count}
+          </h1>
+        );
+      }
+
+
+      class MiComponente extends React.Component{
+        constructor(props){
+          super(props);
+          this.state={
+            count: 0,
+          };
+          this.handleClick = this.handleClick.bind(this);
+        }
+        handleClick(){
+          this.setState({
+            count: this.state.count + 1,
+          })
+        }
+
+        render(){          
+          return (
+            <Hola
+             name={this.props.name}
+             count={this.state.count}
+             onClick={this.handleClick}
+           
+          />
+          );
+        }
+      }
+
+       ReactDOM.render(
+        <MiComponente name="FX" />,
+        document.getElementById('root')
+        );
+      
+
+    </script>
+
+
+
+
+
+  </body>
+</html>
