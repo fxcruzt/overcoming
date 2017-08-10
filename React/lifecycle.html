@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Hola(props){        
+        return (
+          <h1 id="Title" onClick={ props.onClick }>
+              Hola {props.name} {props.count}
+          </h1>
+        );
+      }
+
+
+      class MiComponente extends React.Component{
+        constructor(props){
+          super(props);
+          this.state={
+            count: 0,
+          };
+          // Recomendacion siempre hacer el bind en el contructor  y nunca donde se use la funcion a bindear.
+          this.handleClick = this.handleClick.bind(this);
+        }
+
+        componentWillMount(){
+          console.log('el componente se va a montar');
+        }
+        componentDidMount(){
+          document.addEventListener('click', this.handleClick);
+
+        }
+        /* El siguiente metodo estará inabilidado por nunca cambiaran los props*/
+        //  componentWillReceiveProps(nextProps){
+        //   this.setState({
+        //     count: this.state.count * 2,
+        //   });
+        //  }
+
+      // Nos permite validar si el componente o no se tiene que actualizar
+        shouldComponentUpdate(nextPrpos, nextState){
+          if(nextState.count !== this.state.count ) return true;
+          return false;          
+
+        }
+         componentWillUpdate(){
+           console.log('el componente se va actualizar');
+         }
+
+         componentDidUpdate(){
+           console.log('el componente se actualizó')
+         }
+
+         componentWillUnMount(){
+           /* Se desmota el listener del documente para eviar problemas de memoria, aqui podemos quitar mapas de googles maps,eliminar objetos de scroll de objeto windows, */
+            document.removeEventListener('click', this.handleClick);
+            
+         }
+
+
+
+        handleClick(){
+          this.setState({
+            count: this.state.count + 1,
+          })
+        }
+
+        render(){          
+          return (
+            <Hola
+             name={this.props.name}
+             count={this.state.count}
+             onClick={this.handleClick}
+           
+          />
+          );
+        }
+      }
+
+       ReactDOM.render(
+        <MiComponente name="FX" />,
+        document.getElementById('root')
+        );
+      
+
+    </script>
+
+
+
+
+
+  </body>
+</html>
